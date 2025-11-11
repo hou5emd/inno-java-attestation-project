@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1762701167606-1
+      author: andrey (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  name: first_name
+                  type: VARCHAR(255)
+              - column:
+                  name: last_name
+                  type: VARCHAR(255)
+              - column:
+                  name: password
+                  type: VARCHAR(255)
+              - column:
+                  name: role
+                  type: VARCHAR(255)
+              - column:
+                  name: user_name
+                  type: VARCHAR(255)
+            tableName: user
+  - changeSet:
+      id: 1762701167606-4
+      author: andrey (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addNotNullConstraint:
+            columnName: password
+            tableName: user
+  - changeSet:
+      id: 1762701167606-7
+      author: andrey (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addNotNullConstraint:
+            columnName: user_name
+            tableName: user
+  - changeSet:
+      id: 1762701167606-8
+      author: andrey (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addUniqueConstraint:
+            columnNames: user_name
+            constraintName: UC_USER_USER_NAME
+            tableName: user
+

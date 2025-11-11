@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1762690049603-1
+      author: andrey (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_user_id
+                  name: id
+                  type: BIGINT
+            tableName: user
+
