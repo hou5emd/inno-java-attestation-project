@@ -1,0 +1,110 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1762756507509-1
+      author: andrey (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_training_event
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: description
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: owner_id
+                  type: BIGINT
+            tableName: training_event
+  - changeSet:
+      id: 1762756507509-2
+      author: andrey (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                  name: student_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: training_event_id
+                  type: BIGINT
+            tableName: training_event_students
+  - changeSet:
+      id: 1762756507509-3
+      author: andrey (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  name: deleted
+                  type: BOOLEAN
+            tableName: user
+  - changeSet:
+      id: 1762756507509-3a
+      author: andrey
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - update:
+            tableName: user
+            columns:
+              - column:
+                  name: deleted
+                  valueBoolean: false
+            where: deleted IS NULL
+  - changeSet:
+      id: 1762756507509-4
+      author: andrey (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addNotNullConstraint:
+            columnName: deleted
+            tableName: user
+  - changeSet:
+      id: 1762756507509-5
+      author: andrey (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: training_event_id
+            baseTableName: training_event_students
+            constraintName: FK_TRAEVESTU_ON_TRAINING_EVENT
+            referencedColumnNames: id
+            referencedTableName: training_event
+  - changeSet:
+      id: 1762756507509-6
+      author: andrey (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: student_id
+            baseTableName: training_event_students
+            constraintName: FK_TRAEVESTU_ON_USER
+            referencedColumnNames: id
+            referencedTableName: user
+  - changeSet:
+      id: 1762756507509-7
+      author: andrey (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: owner_id
+            baseTableName: training_event
+            constraintName: FK_TRAINING_EVENT_ON_OWNER
+            referencedColumnNames: id
+            referencedTableName: user
+

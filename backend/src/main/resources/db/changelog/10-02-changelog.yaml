@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1762762814-2
+      author: andrey
+      changes:
+        - update:
+            tableName: user
+            columns:
+              - column:
+                  name: deleted
+                  valueBoolean: false
+            where: deleted IS NULL
+
