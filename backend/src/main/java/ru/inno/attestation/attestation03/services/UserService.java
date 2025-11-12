@@ -3,12 +3,13 @@ package ru.inno.attestation.attestation03.services;
 import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.inno.attestation.attestation03.dto.*;
+import ru.inno.attestation.attestation03.exceptions.UserAlreadyExistsException;
+import ru.inno.attestation.attestation03.exceptions.UserNotFoundException;
 import ru.inno.attestation.attestation03.mappers.UserMapper;
 import ru.inno.attestation.attestation03.models.User;
 import ru.inno.attestation.attestation03.repositories.UserRepository;
@@ -27,25 +28,25 @@ public class UserService {
     public UserCreateResponseDto create(UserCreateRequestDto userCreateRequestDto) {
         User userRequest = userMapper.userCreateRequestToUser(userCreateRequestDto);
         if (repository.existsByUserName(userRequest.getUserName())) {
-            throw new RuntimeException("Пользователь с таким именем уже существует");
+            throw new UserAlreadyExistsException("Пользователь с таким именем уже существует");
         }
         return userMapper.toUserCreateResponseDto(repository.save(userRequest));
     }
 
     public UserGetResponseDto getUserById(Long id) {
         Optional<User> user = repository.findById(id);
-        return userMapper.toGetResponseDto(user.orElseThrow());
+        return userMapper.toGetResponseDto(user.orElseThrow(() -> new UserNotFoundException("Пользователь не найден")));
     }
 
-    public ListResponseDto<UserGetResponseDto> getUsersWithFilterAndSorting(@Nullable ListRequestDto<UserFilterDto, UserFilterDtoSortField> request) {
+    public ListResponseDto<UserGetResponseDto> getUsersWithFilterAndSorting(@Nullable ListRequestDto<UserFilterDto> request) {
         if (request == null) {
-            request = new ListRequestDto<UserFilterDto, UserFilterDtoSortField>();
+            request = new ListRequestDto<>();
         }
         Specification<User> specification = UserSpecifications.getSpecification(request.getFilter());
         List<Sort.Order> orders = new ArrayList<>();
 
         if(request.getSortField() != null) {
-            orders.add(new Sort.Order(request.getSortType() != null ? request.getSortType() : Sort.Direction.ASC, request.getSortField().getFieldName()));
+            orders.add(new Sort.Order(request.getSortType() != null ? request.getSortType() : Sort.Direction.ASC, request.getSortField()));
         }
         PageRequest pageRequest = PageRequest.of(
                 request.getPage(),
@@ -62,12 +63,12 @@ public class UserService {
 
     @Transactional
     public void deleteUser(Long id) {
-        User user = repository.findById(id).orElseThrow(() -> new RuntimeException(String.format("Пользователь с id = %d, не существует", id)));
+        User user = repository.findById(id).orElseThrow(() -> new UserNotFoundException(String.format("Пользователь с id = %d, не существует", id)));
         user.setDeleted(true);
     }
 
     public UserGetResponseDto update(Long id, UserUpdateRequestDto request) {
-        User user = repository.findById(id).orElseThrow(() -> new RuntimeException(String.format("Пользователь с id = %d, не существует", id)));
+        User user = repository.findById(id).orElseThrow(() -> new UserNotFoundException(String.format("Пользователь с id = %d, не существует", id)));
         User newUser = userMapper.mergeWithUpdateRequestDto(user, request);
         return userMapper.toGetResponseDto(repository.save(newUser));
     }
