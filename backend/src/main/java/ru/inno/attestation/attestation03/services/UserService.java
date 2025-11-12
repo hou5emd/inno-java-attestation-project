@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.inno.attestation.attestation03.dto.*;
 import ru.inno.attestation.attestation03.exceptions.UserAlreadyExistsException;
 import ru.inno.attestation.attestation03.exceptions.UserNotFoundException;
+import ru.inno.attestation.attestation03.mappers.ListRequestDtoMapper;
 import ru.inno.attestation.attestation03.mappers.UserMapper;
 import ru.inno.attestation.attestation03.models.User;
 import ru.inno.attestation.attestation03.repositories.UserRepository;
@@ -39,20 +40,9 @@ public class UserService {
     }
 
     public ListResponseDto<UserResponseDto> getUsersWithFilterAndSorting(@Nullable ListRequestDto<UserFilterDto> request) {
-        if (request == null) {
-            request = new ListRequestDto<>();
-        }
-        Specification<User> specification = UserSpecifications.getSpecification(request.getFilter());
-        List<Sort.Order> orders = new ArrayList<>();
+        Specification<User> specification = UserSpecifications.getSpecification(request != null && request.getFilter() != null ? request.getFilter() : null);
 
-        if(request.getSortField() != null) {
-            orders.add(new Sort.Order(request.getSortType() != null ? request.getSortType() : Sort.Direction.ASC, request.getSortField()));
-        }
-        PageRequest pageRequest = PageRequest.of(
-                request.getPage(),
-                request.getPageSize(),
-                Sort.by(orders)
-        );
+        PageRequest pageRequest = ListRequestDtoMapper.toDefaultPageAndSize(request);
 
         List<UserResponseDto> users = repository.findAll(specification, pageRequest).stream().map(userMapper::toGetResponseDto).toList();
         return  ListResponseDto.<UserResponseDto>builder()
