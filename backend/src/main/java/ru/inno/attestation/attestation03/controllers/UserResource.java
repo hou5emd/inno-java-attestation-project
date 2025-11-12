@@ -22,8 +22,8 @@ public class UserResource {
     @GetMapping
     @Operation(summary = "Список пользователей", description = "Получение списка пользователей с сортировкой и фильрацией", operationId = "listUser")
     @ApiResponse(responseCode = "200")
-    public ResponseEntity<ListResponseDto<UserGetResponseDto>> listUser(@Nullable ListRequestDto<UserFilterDto> request) {
-        ListResponseDto<UserGetResponseDto> list = userService.getUsersWithFilterAndSorting(request);
+    public ResponseEntity<ListResponseDto<UserResponseDto>> listUser(@Nullable ListRequestDto<UserFilterDto> request) {
+        ListResponseDto<UserResponseDto> list = userService.getUsersWithFilterAndSorting(request);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
@@ -38,8 +38,8 @@ public class UserResource {
     @GetMapping("/{id}")
     @Operation(summary = "Получение пользователя по id", operationId = "getUserById")
     @ApiResponse(responseCode = "200", description = "Пользователь успешно получен")
-    public ResponseEntity<UserGetResponseDto> getUserById(@PathVariable Long id) {
-        UserGetResponseDto response = userService.getUserById(id);
+    public ResponseEntity<UserResponseDto> getUserById(@PathVariable Long id) {
+        UserResponseDto response = userService.getUserById(id);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
@@ -54,8 +54,8 @@ public class UserResource {
     @PatchMapping("/{id}")
     @Operation(summary = "Обновление пользователя", operationId = "updateUser")
     @ApiResponse(responseCode = "200", description = "Пользователь успешно обновлён")
-    public ResponseEntity<UserGetResponseDto> updateUser(@PathVariable Long id, @RequestBody UserUpdateRequestDto request) {
-        UserGetResponseDto response = userService.update(id, request);
+    public ResponseEntity<UserResponseDto> updateUser(@PathVariable Long id, @RequestBody UserUpdateRequestDto request) {
+        UserResponseDto response = userService.update(id, request);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
