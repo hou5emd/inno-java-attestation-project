@@ -23,7 +23,7 @@ public class UserSpecifications {
                 predicates.add(criteriaBuilder.equal(root.get("role"), filter.role()));
             }
             if (filter.id() != null) {
-                predicates.add(criteriaBuilder.equal(root.get("id"), filter.id()));
+                predicates.add(criteriaBuilder.equal(root.get("deleted"), filter.id()));
             }
             if (filter.userName() != null) {
                 predicates.add(criteriaBuilder.equal(root.get("userName"), filter.userName()));
