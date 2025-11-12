@@ -13,13 +13,6 @@ import java.util.List;
 public interface TrainingEventMapper {
     TrainingEventResponseDto toResponse(TrainingEvent event);
 
-    @Mapping(source = "ownerId", target = "owner.id")
-    TrainingEvent filterToEntity(TrainingEventFilterDto trainingEventFilterDto);
-
-    @Mapping(target = "studentIds", expression = "java(studentsToStudentIds(trainingEvent.getStudents()))")
-    @Mapping(source = "owner.id", target = "ownerId")
-    TrainingEventFilterDto toTrainingEventFilterDto(TrainingEvent trainingEvent);
-
     default List<Long> studentsToStudentIds(List<User> students) {
         return students.stream().map(User::getId).toList();
     }
