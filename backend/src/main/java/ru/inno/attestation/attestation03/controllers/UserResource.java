@@ -2,6 +2,7 @@ package ru.inno.attestation.attestation03.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class UserResource {
     @GetMapping
     @Operation(summary = "Список пользователей", description = "Получение списка пользователей с сортировкой и фильрацией", operationId = "listUser")
     @ApiResponse(responseCode = "200")
-    public ResponseEntity<ListResponseDto<UserGetResponseDto>> listUser(ListRequestDto<UserFilterDto> request) {
+    public ResponseEntity<ListResponseDto<UserGetResponseDto>> listUser(@RequestBody @Nullable ListRequestDto<UserFilterDto, UserFilterDtoSortField> request) {
         ListResponseDto<UserGetResponseDto> list = userService.getUsersWithFilterAndSorting(request);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }

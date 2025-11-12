@@ -1,5 +1,6 @@
 package ru.inno.attestation.attestation03.services;
 
+import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -36,12 +37,15 @@ public class UserService {
         return userMapper.toGetResponseDto(user.orElseThrow());
     }
 
-    public ListResponseDto<UserGetResponseDto> getUsersWithFilterAndSorting(ListRequestDto<UserFilterDto> request) {
+    public ListResponseDto<UserGetResponseDto> getUsersWithFilterAndSorting(@Nullable ListRequestDto<UserFilterDto, UserFilterDtoSortField> request) {
+        if (request == null) {
+            request = new ListRequestDto<UserFilterDto, UserFilterDtoSortField>();
+        }
         Specification<User> specification = UserSpecifications.getSpecification(request.getFilter());
         List<Sort.Order> orders = new ArrayList<>();
 
         if(request.getSortField() != null) {
-            orders.add(new Sort.Order(request.getSortType() != null ? request.getSortType() : Sort.Direction.ASC, request.getSortField()));
+            orders.add(new Sort.Order(request.getSortType() != null ? request.getSortType() : Sort.Direction.ASC, request.getSortField().getFieldName()));
         }
         PageRequest pageRequest = PageRequest.of(
                 request.getPage(),
@@ -52,7 +56,7 @@ public class UserService {
         List<UserGetResponseDto> users = repository.findAll(specification, pageRequest).stream().map(userMapper::toGetResponseDto).toList();
         return  ListResponseDto.<UserGetResponseDto>builder()
                 .items(users)
-                .totalCount(repository.countByDeletedFalse())
+                .totalCount(repository.count(specification))
                 .build();
     }
 
