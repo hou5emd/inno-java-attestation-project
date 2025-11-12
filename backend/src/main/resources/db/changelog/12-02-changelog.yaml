@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1762961959634-1
+      author: andrey (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  name: deleted
+                  type: BOOLEAN
+            tableName: training_event
+  - changeSet:
+      id: 1762961959634-2
+      author: andrey (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addNotNullConstraint:
+            columnName: deleted
+            tableName: training_event
+

@@ -9,7 +9,7 @@ import ru.inno.attestation.attestation03.models.User;
 public interface UserMapper {
     User userCreateRequestToUser(UserCreateRequestDto userCreateRequestDto);
 
-    UserGetResponseDto toGetResponseDto(User user);
+    UserResponseDto toGetResponseDto(User user);
 
     UserCreateResponseDto toUserCreateResponseDto(User user);
 

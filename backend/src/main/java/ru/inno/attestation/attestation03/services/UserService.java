@@ -33,12 +33,12 @@ public class UserService {
         return userMapper.toUserCreateResponseDto(repository.save(userRequest));
     }
 
-    public UserGetResponseDto getUserById(Long id) {
+    public UserResponseDto getUserById(Long id) {
         Optional<User> user = repository.findById(id);
         return userMapper.toGetResponseDto(user.orElseThrow(() -> new UserNotFoundException("Пользователь не найден")));
     }
 
-    public ListResponseDto<UserGetResponseDto> getUsersWithFilterAndSorting(@Nullable ListRequestDto<UserFilterDto> request) {
+    public ListResponseDto<UserResponseDto> getUsersWithFilterAndSorting(@Nullable ListRequestDto<UserFilterDto> request) {
         if (request == null) {
             request = new ListRequestDto<>();
         }
@@ -54,8 +54,8 @@ public class UserService {
                 Sort.by(orders)
         );
 
-        List<UserGetResponseDto> users = repository.findAll(specification, pageRequest).stream().map(userMapper::toGetResponseDto).toList();
-        return  ListResponseDto.<UserGetResponseDto>builder()
+        List<UserResponseDto> users = repository.findAll(specification, pageRequest).stream().map(userMapper::toGetResponseDto).toList();
+        return  ListResponseDto.<UserResponseDto>builder()
                 .items(users)
                 .totalCount(repository.count(specification))
                 .build();
@@ -67,7 +67,7 @@ public class UserService {
         user.setDeleted(true);
     }
 
-    public UserGetResponseDto update(Long id, UserUpdateRequestDto request) {
+    public UserResponseDto update(Long id, UserUpdateRequestDto request) {
         User user = repository.findById(id).orElseThrow(() -> new UserNotFoundException(String.format("Пользователь с id = %d, не существует", id)));
         User newUser = userMapper.mergeWithUpdateRequestDto(user, request);
         return userMapper.toGetResponseDto(repository.save(newUser));

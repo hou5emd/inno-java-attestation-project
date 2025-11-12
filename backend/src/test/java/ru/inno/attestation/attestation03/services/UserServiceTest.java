@@ -105,7 +105,7 @@ class UserServiceTest {
         UserCreateResponseDto created = userService.create(validCreateRequest);
 
         // Act
-        UserGetResponseDto response = userService.getUserById(created.id());
+        UserResponseDto response = userService.getUserById(created.id());
 
         // Assert
         assertNotNull(response);
@@ -130,7 +130,7 @@ class UserServiceTest {
         UserCreateResponseDto created = userService.create(validCreateRequest);
 
         // Act
-        UserGetResponseDto updated = userService.update(created.id(), updateRequest);
+        UserResponseDto updated = userService.update(created.id(), updateRequest);
 
         // Assert
         assertNotNull(updated);
@@ -193,7 +193,7 @@ class UserServiceTest {
         ListRequestDto<UserFilterDto> request = createListRequest(0, 10, null, null);
 
         // Act
-        ListResponseDto<UserGetResponseDto> response = userService.getUsersWithFilterAndSorting(request);
+        ListResponseDto<UserResponseDto> response = userService.getUsersWithFilterAndSorting(request);
 
         // Assert
         assertNotNull(response);
@@ -217,7 +217,7 @@ class UserServiceTest {
         ListRequestDto<UserFilterDto> request = createListRequest(0, 10, "firstName", null);
 
         // Act
-        ListResponseDto<UserGetResponseDto> response = userService.getUsersWithFilterAndSorting(request);
+        ListResponseDto<UserResponseDto> response = userService.getUsersWithFilterAndSorting(request);
 
         // Assert
         assertNotNull(response);
@@ -232,7 +232,7 @@ class UserServiceTest {
         ListRequestDto<UserFilterDto> request = createListRequest(0, 10, null, null);
 
         // Act
-        ListResponseDto<UserGetResponseDto> response = userService.getUsersWithFilterAndSorting(request);
+        ListResponseDto<UserResponseDto> response = userService.getUsersWithFilterAndSorting(request);
 
         // Assert
         assertNotNull(response);
@@ -253,7 +253,7 @@ class UserServiceTest {
         request.setPageSize(10);
 
         // Act
-        ListResponseDto<UserGetResponseDto> response = userService.getUsersWithFilterAndSorting(request);
+        ListResponseDto<UserResponseDto> response = userService.getUsersWithFilterAndSorting(request);
 
         // Assert
         assertNotNull(response);
@@ -273,7 +273,7 @@ class UserServiceTest {
         request.setPageSize(10);
 
         // Act
-        ListResponseDto<UserGetResponseDto> response = userService.getUsersWithFilterAndSorting(request);
+        ListResponseDto<UserResponseDto> response = userService.getUsersWithFilterAndSorting(request);
 
         // Assert
         assertNotNull(response);
@@ -293,7 +293,7 @@ class UserServiceTest {
         request.setPageSize(10);
 
         // Act
-        ListResponseDto<UserGetResponseDto> response = userService.getUsersWithFilterAndSorting(request);
+        ListResponseDto<UserResponseDto> response = userService.getUsersWithFilterAndSorting(request);
 
         // Assert
         assertNotNull(response);
@@ -313,7 +313,7 @@ class UserServiceTest {
         request.setPageSize(10);
 
         // Act
-        ListResponseDto<UserGetResponseDto> response = userService.getUsersWithFilterAndSorting(request);
+        ListResponseDto<UserResponseDto> response = userService.getUsersWithFilterAndSorting(request);
 
         // Assert
         assertNotNull(response);
@@ -333,7 +333,7 @@ class UserServiceTest {
         );
 
         // Act
-        UserGetResponseDto updated = userService.update(created.id(), partialUpdate);
+        UserResponseDto updated = userService.update(created.id(), partialUpdate);
 
         // Assert
         assertNotNull(updated);

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,12 @@ public class TrainingEvent {
     @Column(nullable = false)
     private String description;
 
+    @Column(name = "start_date", nullable = false)
+    private LocalDateTime startDate;
+
+    @Column(name = "end_date", nullable = false)
+    private LocalDateTime endDate;
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
@@ -31,4 +38,7 @@ public class TrainingEvent {
             inverseJoinColumns = @JoinColumn(name = "student_id")
     )
     private List<User> students = new ArrayList<>();
+
+    @Column(nullable = false)
+    private Boolean deleted = false;
 }
