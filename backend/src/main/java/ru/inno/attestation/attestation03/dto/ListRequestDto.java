@@ -8,9 +8,9 @@ import org.springframework.data.domain.Sort;
 @Setter
 public  class ListRequestDto<F> {
     private F filter;
-    private Integer page = 0;
-    private Integer pageSize = 20;
-    private Sort.Direction sortType = Sort.Direction.ASC;
+    private Integer page;
+    private Integer pageSize;
+    private Sort.Direction sortType;
     // TODO: сделать генерацию через annotation-processor
     private String sortField;
 }
