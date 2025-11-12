@@ -12,6 +12,7 @@
 	<artifactId>attestation03</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
+
 	<name>attestation03</name>
 	<description>Attestation project</description>
 	<url/>
@@ -124,18 +125,6 @@
 			<artifactId>postgresql</artifactId>
 			<scope>test</scope>
 		</dependency>
-        <!-- https://mvnrepository.com/artifact/com.squareup/javapoet -->
-        <dependency>
-            <groupId>com.squareup</groupId>
-            <artifactId>javapoet</artifactId>
-            <version>1.13.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.auto.service</groupId>
-            <artifactId>auto-service</artifactId>
-            <version>1.1.1</version>
-            <scope>provided</scope>
-        </dependency>
 	</dependencies>
 
 	<build>
@@ -144,36 +133,31 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
                 <version>3.14.1</version>
-                <executions>
-                    <!-- Сначала собираем аннотационный процессор -->
-                    <execution>
-                        <id>compile-processor</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <configuration>
-                            <release>21</release>
-                            <includes>
-                                <include>**/annotations/**</include>
-                                <include>**/processors/**</include>
-                                <include>**/dto/**</include>
-                            </includes>
-                            <proc>full</proc>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>compile-app</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                    </execution>
-                </executions>
+
 				<configuration>
+
                         <release>21</release>
                         <source>21</source>
                         <target>21</target>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+                            <version>1.18.42</version>
+						</path>
+						<path>
+							<groupId>org.springframework.boot</groupId>
+							<artifactId>spring-boot-configuration-processor</artifactId>
+                            <version>3.5.7</version>
+						</path>
+                        <!-- https://mvnrepository.com/artifact/org.mapstruct/mapstruct-processor -->
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>1.6.3</version>
+                        </path>
+
+					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -188,27 +172,6 @@
 					</excludes>
 				</configuration>
 			</plugin>
-
-                <plugin>
-                    <groupId>org.jacoco</groupId>
-                    <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.8.14</version>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>prepare-agent</goal>
-                            </goals>
-                        </execution>
-                        <execution>
-                            <id>report</id>
-                            <phase>prepare-package</phase>
-                            <goals>
-                                <goal>report</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-
 		</plugins>
 	</build>
 

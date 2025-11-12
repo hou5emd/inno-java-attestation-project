@@ -22,7 +22,7 @@ public class UserResource {
     @GetMapping
     @Operation(summary = "Список пользователей", description = "Получение списка пользователей с сортировкой и фильрацией", operationId = "listUser")
     @ApiResponse(responseCode = "200")
-    public ResponseEntity<ListResponseDto<UserGetResponseDto>> listUser(@RequestBody @Nullable ListRequestDto<UserFilterDto, UserFilterDtoSortField> request) {
+    public ResponseEntity<ListResponseDto<UserGetResponseDto>> listUser(@Nullable ListRequestDto<UserFilterDto> request) {
         ListResponseDto<UserGetResponseDto> list = userService.getUsersWithFilterAndSorting(request);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
