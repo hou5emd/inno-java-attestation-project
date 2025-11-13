@@ -5,10 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import ru.inno.attestation.attestation03.dto.ListRequestDto;
-import ru.inno.attestation.attestation03.dto.ListResponseDto;
-import ru.inno.attestation.attestation03.dto.TrainingEventFilterDto;
-import ru.inno.attestation.attestation03.dto.TrainingEventResponseDto;
+import ru.inno.attestation.attestation03.dto.*;
 import ru.inno.attestation.attestation03.mappers.ListRequestDtoMapper;
 import ru.inno.attestation.attestation03.mappers.TrainingEventMapper;
 import ru.inno.attestation.attestation03.models.TrainingEvent;
@@ -25,7 +22,7 @@ public class TrainingEventService {
     private final TrainingEventMapper mapper;
 
 
-    public ListResponseDto<TrainingEventResponseDto> list(@Nullable ListRequestDto<TrainingEventFilterDto> request) {
+    public TrainingEventListResponseDto list(@Nullable ListRequestDto<TrainingEventFilterDto> request) {
 
         Specification<TrainingEvent> specification = TrainingEventSpecification.getSpecification(request != null ? request.getFilter() : null);
 
@@ -34,7 +31,7 @@ public class TrainingEventService {
         List<TrainingEventResponseDto> list = repository.findAll(specification, pageRequest).stream().map(mapper::toResponse).toList();
         Long totalCount = repository.count(specification);
 
-        return ListResponseDto.<TrainingEventResponseDto>builder()
+        return TrainingEventListResponseDto.builder()
                 .items(list)
                 .totalCount(totalCount)
                 .build();

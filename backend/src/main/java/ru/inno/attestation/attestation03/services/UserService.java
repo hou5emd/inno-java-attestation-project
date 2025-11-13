@@ -39,13 +39,13 @@ public class UserService {
         return userMapper.toGetResponseDto(user.orElseThrow(() -> new UserNotFoundException("Пользователь не найден")));
     }
 
-    public ListResponseDto<UserResponseDto> getUsersWithFilterAndSorting(@Nullable ListRequestDto<UserFilterDto> request) {
+    public UserListResponse getUsersWithFilterAndSorting(@Nullable ListRequestDto<UserFilterDto> request) {
         Specification<User> specification = UserSpecifications.getSpecification(request != null && request.getFilter() != null ? request.getFilter() : null);
 
         PageRequest pageRequest = ListRequestDtoMapper.toDefaultPageAndSize(request);
 
         List<UserResponseDto> users = repository.findAll(specification, pageRequest).stream().map(userMapper::toGetResponseDto).toList();
-        return  ListResponseDto.<UserResponseDto>builder()
+        return  UserListResponse.builder()
                 .items(users)
                 .totalCount(repository.count(specification))
                 .build();
