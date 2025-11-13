@@ -193,7 +193,7 @@ class UserServiceTest {
         ListRequestDto<UserFilterDto> request = createListRequest(0, 10, null, null);
 
         // Act
-        ListResponseDto<UserResponseDto> response = userService.getUsersWithFilterAndSorting(request);
+        UserListResponse response = userService.getUsersWithFilterAndSorting(request);
 
         // Assert
         assertNotNull(response);
@@ -217,7 +217,7 @@ class UserServiceTest {
         ListRequestDto<UserFilterDto> request = createListRequest(0, 10, "firstName", null);
 
         // Act
-        ListResponseDto<UserResponseDto> response = userService.getUsersWithFilterAndSorting(request);
+        UserListResponse response = userService.getUsersWithFilterAndSorting(request);
 
         // Assert
         assertNotNull(response);
@@ -232,7 +232,7 @@ class UserServiceTest {
         ListRequestDto<UserFilterDto> request = createListRequest(0, 10, null, null);
 
         // Act
-        ListResponseDto<UserResponseDto> response = userService.getUsersWithFilterAndSorting(request);
+        UserListResponse response = userService.getUsersWithFilterAndSorting(request);
 
         // Assert
         assertNotNull(response);
@@ -253,7 +253,7 @@ class UserServiceTest {
         request.setPageSize(10);
 
         // Act
-        ListResponseDto<UserResponseDto> response = userService.getUsersWithFilterAndSorting(request);
+        UserListResponse response = userService.getUsersWithFilterAndSorting(request);
 
         // Assert
         assertNotNull(response);
@@ -273,7 +273,7 @@ class UserServiceTest {
         request.setPageSize(10);
 
         // Act
-        ListResponseDto<UserResponseDto> response = userService.getUsersWithFilterAndSorting(request);
+        UserListResponse response = userService.getUsersWithFilterAndSorting(request);
 
         // Assert
         assertNotNull(response);
@@ -293,7 +293,7 @@ class UserServiceTest {
         request.setPageSize(10);
 
         // Act
-        ListResponseDto<UserResponseDto> response = userService.getUsersWithFilterAndSorting(request);
+        UserListResponse response = userService.getUsersWithFilterAndSorting(request);
 
         // Assert
         assertNotNull(response);
@@ -313,7 +313,7 @@ class UserServiceTest {
         request.setPageSize(10);
 
         // Act
-        ListResponseDto<UserResponseDto> response = userService.getUsersWithFilterAndSorting(request);
+        UserListResponse response = userService.getUsersWithFilterAndSorting(request);
 
         // Assert
         assertNotNull(response);
