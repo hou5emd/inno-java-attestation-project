@@ -19,16 +19,15 @@ public class UserResource {
     private final UserService userService;
 
 
-    @GetMapping
+    @PostMapping("/list")
     @Operation(summary = "Список пользователей", description = "Получение списка пользователей с сортировкой и фильрацией", operationId = "listUser")
     @ApiResponse(responseCode = "200")
-    public ResponseEntity<UserListResponse> listUser(@ModelAttribute @Nullable ListRequestDto<UserFilterDto> request) {
-        System.out.println(request);
-        UserListResponse list = userService.getUsersWithFilterAndSorting(request);
+    public ResponseEntity<UserListResponseDto> listUser(@RequestBody @Nullable UserListRequestDto request) {
+        UserListResponseDto list = userService.getUsersWithFilterAndSorting(request);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
-    @PostMapping()
+    @PostMapping
     @Operation(summary = "Создать пользователя", description = "Создание нового пользователя в системе", operationId = "createUser")
     @ApiResponse(responseCode = "201", description = "Пользователь успешно создан")
     public ResponseEntity<UserCreateResponseDto> createUser(@RequestBody UserCreateRequestDto userCreateRequestDto) {

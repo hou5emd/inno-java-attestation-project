@@ -19,13 +19,15 @@ public class TrainingEventResource {
 
 
 
-    @GetMapping
+    @PostMapping("/list")
     @Operation(summary = "Список тренировок", description = "Получение списка Тренировок с сортировкой и фильрацией", operationId = "listEvents")
     @ApiResponse(responseCode = "200")
-    public ResponseEntity<TrainingEventListResponseDto> listEvents(@ModelAttribute @Nullable ListRequestDto<TrainingEventFilterDto> request) {
+    public ResponseEntity<TrainingEventListResponseDto> listEvents(@RequestBody @Nullable TrainingEventListRequestDto request) {
         TrainingEventListResponseDto events = trainingEventService.list(request);
         return ResponseEntity.status(HttpStatus.OK).body(events);
     }
+
+//    public ResponseEntity<TrainingEventResponseDto> createEvent(@RequestBody )
 
 
 }

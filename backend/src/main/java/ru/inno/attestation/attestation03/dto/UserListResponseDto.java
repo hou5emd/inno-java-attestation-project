@@ -7,5 +7,5 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @SuperBuilder
-public class TrainingEventListResponseDto extends BaseListResponseDto<TrainingEventResponseDto> {
+public class UserListResponseDto extends BaseListResponseDto<UserResponseDto> {
 }

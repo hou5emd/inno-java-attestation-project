@@ -13,9 +13,5 @@ public interface UserMapper {
 
     UserCreateResponseDto toUserCreateResponseDto(User user);
 
-    User updateRequestToUser(UserUpdateRequestDto userUpdateRequestDto);
-
-    UserUpdateRequestDto toUserUpdateRequestDto(User user);
-
     User mergeWithUpdateRequestDto(@MappingTarget User user, UserUpdateRequestDto newUser);
 }

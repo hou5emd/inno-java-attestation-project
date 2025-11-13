@@ -22,7 +22,7 @@ public class TrainingEventService {
     private final TrainingEventMapper mapper;
 
 
-    public TrainingEventListResponseDto list(@Nullable ListRequestDto<TrainingEventFilterDto> request) {
+    public TrainingEventListResponseDto list(@Nullable BaseListRequestDto<TrainingEventFilterDto> request) {
 
         Specification<TrainingEvent> specification = TrainingEventSpecification.getSpecification(request != null ? request.getFilter() : null);
 
