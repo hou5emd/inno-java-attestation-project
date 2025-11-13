@@ -66,7 +66,7 @@ class UserResourceTest {
     }
 
     @Test
-    @DisplayName("GET /api/v1/users - получение списка пользователей")
+    @DisplayName("POST /api/v1/users/list - получение списка пользователей")
     void testListUsers_Success() throws Exception {
         // Arrange
         userService.create(validCreateRequest);
@@ -79,7 +79,7 @@ class UserResourceTest {
         ));
 
         // Act & Assert
-        mockMvc.perform(get("/api/v1/users")
+        mockMvc.perform(post("/api/v1/users/list")
                 .param("page", "0")
                 .param("pageSize", "10")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -90,10 +90,10 @@ class UserResourceTest {
     }
 
     @Test
-    @DisplayName("GET /api/v1/users - пустой список пользователей")
+    @DisplayName("POST /api/v1/users/list - пустой список пользователей")
     void testListUsers_Empty() throws Exception {
         // Act & Assert
-        mockMvc.perform(get("/api/v1/users")
+        mockMvc.perform(post("/api/v1/users/list")
                 .param("page", "0")
                 .param("pageSize", "10")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -104,7 +104,7 @@ class UserResourceTest {
     }
 
     @Test
-    @DisplayName("GET /api/v1/users - с сортировкой")
+    @DisplayName("POST /api/v1/users/list - с сортировкой")
     void testListUsers_WithSorting() throws Exception {
         // Arrange
         userService.create(validCreateRequest);
@@ -117,7 +117,7 @@ class UserResourceTest {
         ));
 
         // Act & Assert
-        mockMvc.perform(get("/api/v1/users")
+        mockMvc.perform(post("/api/v1/users/list")
                 .param("page", "0")
                 .param("pageSize", "10")
                 .param("sortField", "firstName")
@@ -335,7 +335,7 @@ class UserResourceTest {
                 .andExpect(status().isOk());
 
         // Assert - пользователь должен быть помечен как удаленный
-        mockMvc.perform(get("/api/v1/users")
+        mockMvc.perform(post("/api/v1/users/list")
                 .param("page", "0")
                 .param("pageSize", "10")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -345,7 +345,7 @@ class UserResourceTest {
     }
 
     @Test
-    @DisplayName("GET /api/v1/users - пагинация")
+    @DisplayName("POST /api/v1/users/list - пагинация")
     void testListUsers_Pagination() throws Exception {
         // Arrange
         for (int i = 0; i < 15; i++) {
@@ -359,7 +359,7 @@ class UserResourceTest {
         }
 
         // Act & Assert - первая страница
-        mockMvc.perform(get("/api/v1/users")
+        mockMvc.perform(post("/api/v1/users/list")
                 .param("page", "0")
                 .param("pageSize", "10")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -368,7 +368,7 @@ class UserResourceTest {
                 .andExpect(jsonPath("$.totalCount", equalTo(15)));
 
         // Act & Assert - вторая страница
-        mockMvc.perform(get("/api/v1/users")
+        mockMvc.perform(post("/api/v1/users/list")
                 .param("page", "1")
                 .param("pageSize", "10")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -378,20 +378,20 @@ class UserResourceTest {
     }
 
     @Test
-    @DisplayName("GET /api/v1/users - без параметров пагинации (используются значения по умолчанию)")
+    @DisplayName("POST /api/v1/users/list - без параметров пагинации (используются значения по умолчанию)")
     void testListUsers_WithoutPaginationParams() throws Exception {
         // Arrange
         userService.create(validCreateRequest);
 
         // Act & Assert
-        mockMvc.perform(get("/api/v1/users")
+        mockMvc.perform(post("/api/v1/users/list")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test
-    @DisplayName("GET /api/v1/users - с DESC сортировкой")
+    @DisplayName("POST /api/v1/users/list - с DESC сортировкой")
     void testListUsers_WithDescSorting() throws Exception {
         // Arrange
         userService.create(validCreateRequest);
@@ -404,7 +404,7 @@ class UserResourceTest {
         ));
 
         // Act & Assert
-        mockMvc.perform(get("/api/v1/users")
+        mockMvc.perform(post("/api/v1/users/list")
                 .param("page", "0")
                 .param("pageSize", "10")
                 .param("sortField", "firstName")
@@ -426,7 +426,7 @@ class UserResourceTest {
                 .andExpect(status().isOk());
 
         // Assert - проверяем, что в списке его нет
-        mockMvc.perform(get("/api/v1/users")
+        mockMvc.perform(post("/api/v1/users/list")
                 .param("page", "0")
                 .param("pageSize", "10")
                 .contentType(MediaType.APPLICATION_JSON))

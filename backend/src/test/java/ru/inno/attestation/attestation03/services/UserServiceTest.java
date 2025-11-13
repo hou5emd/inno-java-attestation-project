@@ -51,8 +51,8 @@ class UserServiceTest {
         );
     }
 
-    private ListRequestDto<UserFilterDto> createListRequest(Integer page, Integer pageSize, String sortField, org.springframework.data.domain.Sort.Direction sortType) {
-        ListRequestDto<UserFilterDto> request = new ListRequestDto<>();
+    private UserListRequestDto createListRequest(Integer page, Integer pageSize, String sortField, org.springframework.data.domain.Sort.Direction sortType) {
+        UserListRequestDto request = new UserListRequestDto();
         request.setPage(page);
         request.setPageSize(pageSize);
         if (sortField != null) {
@@ -190,10 +190,10 @@ class UserServiceTest {
                 "password456"
         ));
 
-        ListRequestDto<UserFilterDto> request = createListRequest(0, 10, null, null);
+        UserListRequestDto request = createListRequest(0, 10, null, null);
 
         // Act
-        UserListResponse response = userService.getUsersWithFilterAndSorting(request);
+        UserListResponseDto response = userService.getUsersWithFilterAndSorting(request);
 
         // Assert
         assertNotNull(response);
@@ -214,10 +214,10 @@ class UserServiceTest {
                 "password789"
         ));
 
-        ListRequestDto<UserFilterDto> request = createListRequest(0, 10, "firstName", null);
+        UserListRequestDto request = createListRequest(0, 10, "firstName", null);
 
         // Act
-        UserListResponse response = userService.getUsersWithFilterAndSorting(request);
+        UserListResponseDto response = userService.getUsersWithFilterAndSorting(request);
 
         // Assert
         assertNotNull(response);
@@ -229,10 +229,10 @@ class UserServiceTest {
     @DisplayName("Получение пустого списка пользователей - успешно")
     void testGetUsersWithFilterAndSorting_Empty_Success() {
         // Arrange
-        ListRequestDto<UserFilterDto> request = createListRequest(0, 10, null, null);
+        UserListRequestDto request = createListRequest(0, 10, null, null);
 
         // Act
-        UserListResponse response = userService.getUsersWithFilterAndSorting(request);
+        UserListResponseDto response = userService.getUsersWithFilterAndSorting(request);
 
         // Assert
         assertNotNull(response);
@@ -247,13 +247,13 @@ class UserServiceTest {
         userService.create(validCreateRequest);
 
         UserFilterDto filter = new UserFilterDto(null, "Иван", null, null, null);
-        ListRequestDto<UserFilterDto> request = new ListRequestDto<>();
+        UserListRequestDto request = new UserListRequestDto();
         request.setFilter(filter);
         request.setPage(0);
         request.setPageSize(10);
 
         // Act
-        UserListResponse response = userService.getUsersWithFilterAndSorting(request);
+        UserListResponseDto response = userService.getUsersWithFilterAndSorting(request);
 
         // Assert
         assertNotNull(response);
@@ -267,13 +267,13 @@ class UserServiceTest {
         userService.create(validCreateRequest);
 
         UserFilterDto filter = new UserFilterDto(null, null, "Иванов", null, null);
-        ListRequestDto<UserFilterDto> request = new ListRequestDto<>();
+        UserListRequestDto request = new UserListRequestDto();
         request.setFilter(filter);
         request.setPage(0);
         request.setPageSize(10);
 
         // Act
-        UserListResponse response = userService.getUsersWithFilterAndSorting(request);
+        UserListResponseDto response = userService.getUsersWithFilterAndSorting(request);
 
         // Assert
         assertNotNull(response);
@@ -287,13 +287,13 @@ class UserServiceTest {
         userService.create(validCreateRequest);
 
         UserFilterDto filter = new UserFilterDto(null, null, null, null, validCreateRequest.userName());
-        ListRequestDto<UserFilterDto> request = new ListRequestDto<>();
+        UserListRequestDto request = new UserListRequestDto();
         request.setFilter(filter);
         request.setPage(0);
         request.setPageSize(10);
 
         // Act
-        UserListResponse response = userService.getUsersWithFilterAndSorting(request);
+        UserListResponseDto response = userService.getUsersWithFilterAndSorting(request);
 
         // Assert
         assertNotNull(response);
@@ -307,13 +307,13 @@ class UserServiceTest {
         userService.create(validCreateRequest);
 
         UserFilterDto filter = new UserFilterDto(null, null, null, UserRole.STUDENT, null);
-        ListRequestDto<UserFilterDto> request = new ListRequestDto<>();
+        UserListRequestDto request = new UserListRequestDto();
         request.setFilter(filter);
         request.setPage(0);
         request.setPageSize(10);
 
         // Act
-        UserListResponse response = userService.getUsersWithFilterAndSorting(request);
+        UserListResponseDto response = userService.getUsersWithFilterAndSorting(request);
 
         // Assert
         assertNotNull(response);

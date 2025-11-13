@@ -3,7 +3,6 @@ package ru.inno.attestation.attestation03.services;
 import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +15,6 @@ import ru.inno.attestation.attestation03.models.User;
 import ru.inno.attestation.attestation03.repositories.UserRepository;
 import ru.inno.attestation.attestation03.specifications.UserSpecifications;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,13 +37,13 @@ public class UserService {
         return userMapper.toGetResponseDto(user.orElseThrow(() -> new UserNotFoundException("Пользователь не найден")));
     }
 
-    public UserListResponse getUsersWithFilterAndSorting(@Nullable ListRequestDto<UserFilterDto> request) {
+    public UserListResponseDto getUsersWithFilterAndSorting(@Nullable UserListRequestDto request) {
         Specification<User> specification = UserSpecifications.getSpecification(request != null && request.getFilter() != null ? request.getFilter() : null);
 
         PageRequest pageRequest = ListRequestDtoMapper.toDefaultPageAndSize(request);
 
         List<UserResponseDto> users = repository.findAll(specification, pageRequest).stream().map(userMapper::toGetResponseDto).toList();
-        return  UserListResponse.builder()
+        return  UserListResponseDto.builder()
                 .items(users)
                 .totalCount(repository.count(specification))
                 .build();
