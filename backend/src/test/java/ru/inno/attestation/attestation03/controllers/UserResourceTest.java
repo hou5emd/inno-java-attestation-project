@@ -8,11 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import ru.inno.attestation.attestation03.TestcontainersConfiguration;
 import ru.inno.attestation.attestation03.dto.*;
@@ -78,11 +77,14 @@ class UserResourceTest {
                 "password456"
         ));
 
+        UserListRequestDto request = new UserListRequestDto();
+        request.setPage(0);
+        request.setPageSize(10);
+
         // Act & Assert
         mockMvc.perform(post("/api/v1/users/list")
-                .param("page", "0")
-                .param("pageSize", "10")
-                .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.items", hasSize(2)))
@@ -92,11 +94,14 @@ class UserResourceTest {
     @Test
     @DisplayName("POST /api/v1/users/list - пустой список пользователей")
     void testListUsers_Empty() throws Exception {
+        UserListRequestDto request = new UserListRequestDto();
+        request.setPage(0);
+        request.setPageSize(10);
+
         // Act & Assert
         mockMvc.perform(post("/api/v1/users/list")
-                .param("page", "0")
-                .param("pageSize", "10")
-                .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.items", hasSize(0)))
@@ -116,12 +121,15 @@ class UserResourceTest {
                 "password789"
         ));
 
+        UserListRequestDto request = new UserListRequestDto();
+        request.setPage(0);
+        request.setPageSize(10);
+        request.setSortField("firstName");
+
         // Act & Assert
         mockMvc.perform(post("/api/v1/users/list")
-                .param("page", "0")
-                .param("pageSize", "10")
-                .param("sortField", "firstName")
-                .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.items", hasSize(2)))
                 .andExpect(jsonPath("$.totalCount", equalTo(2)));
@@ -335,10 +343,12 @@ class UserResourceTest {
                 .andExpect(status().isOk());
 
         // Assert - пользователь должен быть помечен как удаленный
+        UserListRequestDto request = new UserListRequestDto();
+        request.setPage(0);
+        request.setPageSize(10);
         mockMvc.perform(post("/api/v1/users/list")
-                .param("page", "0")
-                .param("pageSize", "10")
-                .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.items", hasSize(0)))
                 .andExpect(jsonPath("$.totalCount", equalTo(0)));
@@ -359,19 +369,23 @@ class UserResourceTest {
         }
 
         // Act & Assert - первая страница
+        UserListRequestDto request = new UserListRequestDto();
+        request.setPage(0);
+        request.setPageSize(10);
         mockMvc.perform(post("/api/v1/users/list")
-                .param("page", "0")
-                .param("pageSize", "10")
-                .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.items", hasSize(10)))
                 .andExpect(jsonPath("$.totalCount", equalTo(15)));
 
         // Act & Assert - вторая страница
+
+        request.setPage(1);
+        request.setPageSize(10);
         mockMvc.perform(post("/api/v1/users/list")
-                .param("page", "1")
-                .param("pageSize", "10")
-                .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.items", hasSize(5)))
                 .andExpect(jsonPath("$.totalCount", equalTo(15)));
@@ -385,7 +399,8 @@ class UserResourceTest {
 
         // Act & Assert
         mockMvc.perform(post("/api/v1/users/list")
-                .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(new UserListRequestDto())))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
@@ -403,13 +418,16 @@ class UserResourceTest {
                 "password456"
         ));
 
+        UserListRequestDto request = new UserListRequestDto();
+        request.setPage(0);
+        request.setPageSize(10);
+        request.setSortField("firstName");
+        request.setSortType(Sort.Direction.DESC);
+
         // Act & Assert
         mockMvc.perform(post("/api/v1/users/list")
-                .param("page", "0")
-                .param("pageSize", "10")
-                .param("sortField", "firstName")
-                .param("sortType", "DESC")
-                .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.items", hasSize(2)));
     }
@@ -426,12 +444,13 @@ class UserResourceTest {
                 .andExpect(status().isOk());
 
         // Assert - проверяем, что в списке его нет
+        UserListRequestDto request = new UserListRequestDto();
+        request.setPage(0);
+        request.setPageSize(10);
         mockMvc.perform(post("/api/v1/users/list")
-                .param("page", "0")
-                .param("pageSize", "10")
-                .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.items", hasSize(0)));
     }
 }
-
