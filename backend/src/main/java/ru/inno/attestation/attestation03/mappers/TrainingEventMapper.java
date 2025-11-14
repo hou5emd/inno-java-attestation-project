@@ -9,7 +9,7 @@ import ru.inno.attestation.attestation03.models.User;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = UserMapper.class)
 public interface TrainingEventMapper {
     TrainingEventResponseDto toResponse(TrainingEvent event);
 
