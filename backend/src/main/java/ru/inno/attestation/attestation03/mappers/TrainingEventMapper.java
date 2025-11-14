@@ -2,9 +2,8 @@ package ru.inno.attestation.attestation03.mappers;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import ru.inno.attestation.attestation03.dto.TrainingEventCreateRequestDto;
-import ru.inno.attestation.attestation03.dto.TrainingEventFilterDto;
-import ru.inno.attestation.attestation03.dto.TrainingEventResponseDto;
+import org.mapstruct.MappingTarget;
+import ru.inno.attestation.attestation03.dto.*;
 import ru.inno.attestation.attestation03.models.TrainingEvent;
 import ru.inno.attestation.attestation03.models.User;
 
@@ -20,4 +19,6 @@ public interface TrainingEventMapper {
 
     @Mapping(source = "ownerId", target = "owner.id")
     TrainingEvent createRequestToEntity(TrainingEventCreateRequestDto trainingEventCreateRequestDto);
+
+    TrainingEvent mergeWithUpdateRequestDto(@MappingTarget TrainingEvent event, TrainingEventUpdateRequestDto newEvent);
 }
