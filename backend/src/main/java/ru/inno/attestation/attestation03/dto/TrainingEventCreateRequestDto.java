@@ -5,6 +5,7 @@ import lombok.Value;
 import ru.inno.attestation.attestation03.models.TrainingEvent;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,5 +20,5 @@ public class TrainingEventCreateRequestDto {
     @NotNull
     LocalDateTime endDate;
     Long ownerId;
-    List<Long> studentIds;
+    List<Long> studentIds = new ArrayList<>();
 }
