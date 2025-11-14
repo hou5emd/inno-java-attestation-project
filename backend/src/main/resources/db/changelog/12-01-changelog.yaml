@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1762958837090-1
+      author: andrey (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  name: end_date
+                  type: DATETIME
+              - column:
+                  name: start_date
+                  type: DATETIME
+            tableName: training_event
+  - changeSet:
+      id: 1762958837090-2
+      author: andrey (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addNotNullConstraint:
+            columnName: end_date
+            tableName: training_event
+  - changeSet:
+      id: 1762958837090-4
+      author: andrey (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addNotNullConstraint:
+            columnName: start_date
+            tableName: training_event
+
