@@ -14,8 +14,7 @@ import ru.inno.attestation.attestation03.dto.*;
 import ru.inno.attestation.attestation03.enums.UserRole;
 import ru.inno.attestation.attestation03.repositories.TrainingEventRepository;
 import ru.inno.attestation.attestation03.repositories.UserRepository;
-import ru.inno.attestation.attestation03.services.TrainingEventService;
-import ru.inno.attestation.attestation03.services.UserService;
+
 
 import java.time.LocalDateTime;
 import java.util.List;
