@@ -17,6 +17,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(TrainingEventNotFoundException.class)
+    public ResponseEntity<ErrorResponseDto> handleTrainingEventNotFound(TrainingEventNotFoundException ex) {
+        ErrorResponseDto error = new ErrorResponseDto("NOT_FOUND", ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<ErrorResponseDto> handleUserAlreadyExists(UserAlreadyExistsException ex) {
         ErrorResponseDto error = new ErrorResponseDto("CONFLICT", ex.getMessage());
